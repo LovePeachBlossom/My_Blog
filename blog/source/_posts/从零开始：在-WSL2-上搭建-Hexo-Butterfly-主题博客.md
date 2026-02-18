@@ -49,7 +49,7 @@ Cloudflare Pages 需要从 Git 仓库拉代码。我的仓库结构是把博客�
 
 ```
 My_Blog/
-├── blog-test/           # Hexo 博客
+├── blog/           # Hexo 博客
 └── hexo-theme-butterfly/ # Butterfly 主题
 ```
 
@@ -71,8 +71,8 @@ git push -u origin main
 
 **构建配置**：
 - 框架预设：`None`
-- 构建命令：`cp -r hexo-theme-butterfly blog-test/themes/butterfly && cd blog-test && npm install && npx hexo clean && npx hexo generate`
-- 构建输出目录：`blog-test/public`
+- 构建命令：`cp -r hexo-theme-butterfly blog/themes/butterfly && cd blog && npm install && npx hexo clean && npx hexo generate`
+- 构建输出目录：`blog/public`
 - 环境变量：`NODE_VERSION` = `22`
 
 构建命令的关键是 `cp -r` 那一步——把主题复制到博客的 `themes/` 目录下，因为 Git 里没有软链接。

@@ -1,9 +1,9 @@
 # Dependencies
-blog-test/node_modules/
+blog/node_modules/
 
 # Generated
-blog-test/public/
-blog-test/db.json
+blog/public/
+blog/db.json
 
 # OS
 .DS_Store
@@ -15,7 +15,7 @@ Thumbs.db
 *.iml
 
 # Hexo
-blog-test/.deploy*/
+blog/.deploy*/
 *.log
 
 # Theme dependencies

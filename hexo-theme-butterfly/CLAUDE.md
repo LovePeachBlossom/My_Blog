@@ -181,9 +181,9 @@ hexo.extend.filter.register('after_post_render', function(data) {
 
 **所有开发和测试必须在 Linux 文件系统中进行**：
 - **开发目录**：`~/projects/My_Blog/` （Linux 原生文件系统）
-- **博客项目**：`~/projects/My_Blog/blog-test/`
+- **博客项目**：`~/projects/My_Blog/blog/`
 - **主题目录**：`~/projects/My_Blog/hexo-theme-butterfly/`
-- **配置文件**：`~/projects/My_Blog/blog-test/_config.butterfly.yml`
+- **配置文件**：`~/projects/My_Blog/blog/_config.butterfly.yml`
 
 **禁止直接修改 Windows 文件系统项目**（`/mnt/d/user/My_Blog/`），用户会自行导出。
 
@@ -191,7 +191,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 
 ```bash
 # 切换到项目目录
-cd ~/projects/My_Blog/blog-test
+cd ~/projects/My_Blog/blog
 
 # 新建文章
 npx hexo new "文章标题"
@@ -209,12 +209,12 @@ npx hexo deploy
 **线上地址**：https://blog-54k.pages.dev
 **GitHub 仓库**：https://github.com/LovePeachBlossom/My_Blog
 **主题接入方式**：
-- 本地开发：软链接 `blog-test/themes/butterfly -> ../../hexo-theme-butterfly`
-- CF 构建：`cp -r hexo-theme-butterfly blog-test/themes/butterfly`
+- 本地开发：软链接 `blog/themes/butterfly -> ../../hexo-theme-butterfly`
+- CF 构建：`cp -r hexo-theme-butterfly blog/themes/butterfly`
 
 **CF Pages 构建配置**：
-- 构建命令：`cp -r hexo-theme-butterfly blog-test/themes/butterfly && cd blog-test && npm install && npx hexo clean && npx hexo generate`
-- 输出目录：`blog-test/public`
+- 构建命令：`cp -r hexo-theme-butterfly blog/themes/butterfly && cd blog && npm install && npx hexo clean && npx hexo generate`
+- 输出目录：`blog/public`
 - 环境变量：`NODE_VERSION` = `22`
 
 **已实现功能**：
