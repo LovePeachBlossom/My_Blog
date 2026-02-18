@@ -20,3 +20,7 @@ blog/.deploy*/
 
 # Theme dependencies
 hexo-theme-butterfly/node_modules/
+
+# Dev docs
+hexo-theme-butterfly/DEV_GUIDE.md
+CLAUDE.md
