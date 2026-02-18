@@ -170,7 +170,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 - **内容方向**：Java 基础课程学习记录
 - **写作风格**：轻松口语化，小白友好，少代码多叙述
 - **部署方式**：Cloudflare Pages（免费 CDN + HTTPS）
-- **线上地址**：https://blog-54k.pages.dev
+- **线上地址**：https://blog.wf0904.cn
 - **GitHub 仓库**：https://github.com/LovePeachBlossom/My_Blog
 - **用户信息**：
   - GitHub: https://github.com/LovePeachBlossom
@@ -206,7 +206,7 @@ npx hexo deploy
 ### 当前配置状态（2026-02-19）
 
 **部署方式**：Cloudflare Pages（Git 推送自动构建）
-**线上地址**：https://blog-54k.pages.dev
+**线上地址**：https://blog.wf0904.cn
 **GitHub 仓库**：https://github.com/LovePeachBlossom/My_Blog
 **主题接入方式**：
 - 本地开发：软链接 `blog/themes/butterfly -> ../../hexo-theme-butterfly`
