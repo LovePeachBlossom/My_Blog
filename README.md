@@ -2,7 +2,7 @@
 
 个人博客，记录 Java 学习笔记，基于 Hexo + Butterfly 主题搭建，部署在 Cloudflare Pages。
 
-**在线访问**：[wf0904.cn](https://wf0904.cn)
+**在线访问**：[blog.wf0904.cn](https://blog.wf0904.cn)
 
 ## 项目结构
 

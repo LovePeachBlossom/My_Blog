@@ -81,7 +81,7 @@ git push -u origin main
 - 软链接在 CF 构建环境会产生循环引用（`ELOOP` 错误），必须用 `cp -r` 代替
 - 主题依赖的 `moment-timezone` 需要在博客的 `package.json` 里显式声明，否则构建报 `Cannot find module`
 
-构建成功后会得到 `.pages.dev` 域名，我的是 [wf0904.cn](https://wf0904.cn)。以后每次 `git push` 都会自动部署。
+构建成功后会得到 `.pages.dev` 域名，我的是 [blog.wf0904.cn](https://blog.wf0904.cn)。以后每次 `git push` 都会自动部署。
 
 ## 主题定制
 
@@ -116,7 +116,7 @@ theme_color:
 
 ## 写在最后
 
-博客搭建完成，已经成功部署到 [wf0904.cn](https://wf0904.cn)，主要用来记录 Java 学习笔记。目前已实现：
+博客搭建完成，已经成功部署到 [blog.wf0904.cn](https://blog.wf0904.cn)，主要用来记录 Java 学习笔记。目前已实现：
 
 - 霞鹜文楷 + Fira Code 字体
 - 粉色主题色 + 彩色标签（6色循环）
