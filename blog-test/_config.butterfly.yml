@@ -1,0 +1,135 @@
+# --------------------------------------
+# Butterfly 主题自定义配置（仅覆盖与默认值不同的项）
+# 默认值参考：hexo-theme-butterfly/_config.yml
+# --------------------------------------
+
+# 导航栏
+nav:
+  fixed: true
+
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  关于: /about/ || fas fa-heart
+
+# 社交链接
+social:
+  fab fa-bilibili: https://space.bilibili.com/407681508 || 哔哩哔哩 || '#00a1d6'
+  fas fa-envelope: mailto:wf_0904_2024_love@outlook.com || 邮箱 || '#ea4335'
+
+# 图片
+favicon: /img/butterfly-icon.png
+
+avatar:
+  img: /img/butterfly-icon.png
+
+default_top_img: /img/bg.jpg
+index_img: /img/bg.jpg
+archive_img: /img/bg.jpg
+tag_img: /img/bg.jpg
+category_img: /img/bg.jpg
+footer_img: true
+
+# 全站背景渐变
+background:
+  - "linear-gradient(to right, #ffd6e8 0%, #c9b3e6 100%)"
+  - "linear-gradient(120deg, #e8c9f0 0%, #b8d4f1 100%)"
+  - "linear-gradient(to top, #f5d7f0 0%, #d4e4f7 100%)"
+
+# 首页副标题打字机
+subtitle:
+  enable: true
+  effect: true
+  typed_option:
+    loop: true
+  source: false
+  sub:
+    - 欢迎来到我的学习小窝 ✨
+    - Java 学习之路，从零开始 🌸
+    - 用心记录每一次成长 💖
+
+# 侧边栏
+aside:
+  display:
+    home: true
+  card_author:
+    button:
+      link: https://github.com/LovePeachBlossom
+  card_tags:
+    color: true
+    custom_colors:
+      - "#ff8fab"
+      - "#ff74a6"
+      - "#ffb3c9"
+      - "#f472b6"
+      - "#fb7185"
+  card_webinfo:
+    runtime_date: 2026/02/18 00:00:00
+
+# 字数统计
+wordcount:
+  enable: true
+
+# 关闭不蒜子统计
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false
+
+# 搜索
+search:
+  use: local_search
+
+# 关闭分享
+share:
+  use:
+
+# 粉色主题色
+theme_color:
+  enable: true
+  main: "#FF69B4"
+  paginator: "#FF1493"
+  button_hover: "#FFB6C1"
+  text_selection: "#FFB6C1"
+  link_color: "#FF69B4"
+  meta_color: "#FFC0CB"
+  hr_color: "#FFB6C1"
+  code_foreground: "#FF1493"
+  code_background: "rgba(255, 182, 193, .1)"
+  toc_color: "#FF69B4"
+  blockquote_padding_color: "#FFB6C1"
+  blockquote_background_color: "#FFF0F5"
+  scrollbar_color: "#FF69B4"
+  meta_theme_color_light: "#FFF0F5"
+  meta_theme_color_dark: "#2D1B2E"
+
+# 字体
+font:
+  global_font_size: 16px
+  code_font_size: 15px
+  font_family: "'LXGW WenKai', 'Noto Sans SC', sans-serif"
+  code_font_family: "'Fira Code', Consolas, monospace"
+
+blog_title_font:
+  font_link: https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
+  font_family: "'LXGW WenKai', 'Noto Sans SC', sans-serif"
+
+# 图片懒加载
+lazyload:
+  enable: true
+  native: true
+  field: site
+
+# 链接预加载
+instantpage: true
+
+# 结构化数据（SEO）
+structured_data:
+  enable: true
+
+# 注入自定义 CSS
+inject:
+  head:
+    - <link rel="stylesheet" href="/css/custom-font-tags.css">

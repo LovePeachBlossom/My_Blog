@@ -1,0 +1,22 @@
+# Dependencies
+blog-test/node_modules/
+
+# Generated
+blog-test/public/
+blog-test/db.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Hexo
+blog-test/.deploy*/
+*.log
+
+# Theme dependencies
+hexo-theme-butterfly/node_modules/
