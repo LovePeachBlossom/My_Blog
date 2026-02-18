@@ -1,6 +1,7 @@
 ---
 title: 搭个博客记录学习 | Hexo + Butterfly 部署到 Cloudflare
 date: 2026-02-18 19:31:55
+updated: 2026-02-19 03:30:00
 tags: [博客搭建, Hexo, Butterfly, Cloudflare]
 categories: 博客日常
 cover: /img/bg.jpg
@@ -32,15 +33,7 @@ git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes
 npm install hexo-renderer-pug hexo-renderer-stylus --save
 ```
 
-**容易踩的坑**：主题目录本身也有依赖，必须进去装一下：
-
-```bash
-cd themes/butterfly && npm install && cd ../..
-```
-
-我第一次就是忘了这步，页面一直报错 `Cannot find module 'hexo-util'`，折腾了半天才发现。装完之后编辑博客根目录的 `_config.yml`，把 `theme` 改成 `butterfly`。
-
-本地预览：
+编辑博客根目录的 `_config.yml`，把 `theme` 改成 `butterfly`，然后本地预览：
 
 ```bash
 npx hexo clean && npx hexo generate && npx hexo server
@@ -48,68 +41,95 @@ npx hexo clean && npx hexo generate && npx hexo server
 
 浏览器打开 `http://localhost:4000`，看到 Butterfly 主题就成功了。
 
+> WSL2 用户注意：如果 `localhost:4000` 打不开，用 `hostname -I` 查看 WSL2 的 IP 地址，然后用 `http://IP:4000` 访问。启动时加 `-i 0.0.0.0` 参数监听所有网卡。
+
 ## 推送到 GitHub
 
-Cloudflare Pages 需要从 Git 仓库拉代码。在 GitHub 创建新仓库后：
+Cloudflare Pages 需要从 Git 仓库拉代码。我的仓库结构是把博客和主题放在同一个仓库里：
+
+```
+My_Blog/
+├── blog-test/           # Hexo 博客
+└── hexo-theme-butterfly/ # Butterfly 主题
+```
+
+在 GitHub 创建新仓库后：
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/你的用户名/my-blog.git
+cd ~/projects/My_Blog
+git init && git branch -M main
+git add . && git commit -m "Initial commit"
+git remote add origin git@github.com:你的用户名/My_Blog.git
 git push -u origin main
 ```
 
-**注意**：如果 `themes/butterfly` 是符号链接，建议直接复制主题文件到项目里，避免 Git 推送问题。
+**注意**：本地开发用软链接引用主题（`themes/butterfly -> ../../hexo-theme-butterfly`），但软链接不要提交到 Git，CF 构建时用 `cp -r` 复制主题目录。
 
 ## 部署到 Cloudflare Pages
 
-去 [Cloudflare](https://dash.cloudflare.com/) 注册账号，进入 Pages → 创建项目 → 连接到 Git，选择刚才的仓库。
+去 [Cloudflare](https://dash.cloudflare.com/) 注册账号，进入 Workers 和 Pages → 创建 → 连接到 Git，选择仓库。
 
-**构建配置**（框架预设选 Hexo）：
-- 构建命令：`npx hexo generate`
-- 构建输出目录：`public`
-- Node 版本：18+
+**构建配置**：
+- 框架预设：`None`
+- 构建命令：`cp -r hexo-theme-butterfly blog-test/themes/butterfly && cd blog-test && npm install && npx hexo clean && npx hexo generate`
+- 构建输出目录：`blog-test/public`
+- 环境变量：`NODE_VERSION` = `22`
 
-**常见构建失败原因**：
-- `package.json` 缺少 `hexo-renderer-pug` 和 `hexo-renderer-stylus`
-- 主题依赖未安装（需要在 `themes/butterfly` 目录执行 `npm install`）
-- Node 版本不匹配（可创建 `.node-version` 文件指定版本）
+构建命令的关键是 `cp -r` 那一步——把主题复制到博客的 `themes/` 目录下，因为 Git 里没有软链接。
 
-构建成功后会得到 `.pages.dev` 域名，以后每次 push 都会自动部署。
+**踩过的坑**：
+- 软链接在 CF 构建环境会产生循环引用（`ELOOP` 错误），必须用 `cp -r` 代替
+- 主题依赖的 `moment-timezone` 需要在博客的 `package.json` 里显式声明，否则构建报 `Cannot find module`
+
+构建成功后会得到 `.pages.dev` 域名，我的是 [blog-54k.pages.dev](https://blog-54k.pages.dev)。以后每次 `git push` 都会自动部署。
 
 ## 主题定制
 
-我给博客做了一些二次元风格的定制：
+Butterfly 的配置推荐在博客根目录创建 `_config.butterfly.yml`，只写你改过的配置项，不要复制整个默认配置。我的配置文件只有 135 行，但实现了完整的二次元风格。
 
-**字体**：使用霞鹜文楷（LXGW WenKai），手写风格更有动漫感。在 `_config.butterfly.yml` 配置：
+**字体**：使用霞鹜文楷（LXGW WenKai），手写风格更有动漫感：
 ```yaml
 font:
   font_family: "'LXGW WenKai', 'Noto Sans SC', sans-serif"
+  code_font_family: "'Fira Code', Consolas, monospace"
 
 blog_title_font:
   font_link: https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
 ```
 
-**彩色标签**：标签页的标签用 6 种颜色循环显示，支持亮色/暗色模式。创建 `source/css/custom-font-tags.css` 并在配置中注入。
+**粉色主题色**：整套粉色系配色，从主色到滚动条统一风格：
+```yaml
+theme_color:
+  enable: true
+  main: "#FF69B4"
+  link_color: "#FF69B4"
+  scrollbar_color: "#FF69B4"
+```
 
-**背景图**：首页使用本地背景图，亮色模式透明度 0.3，暗色模式 0.5。
+**彩色标签**：标签页用 6 种颜色循环显示，创建 `source/css/custom-font-tags.css` 并在配置中注入。
 
-**其他技巧**：
-- 新建文章：`npx hexo new "标题"`
-- 自定义域名：在 Cloudflare Pages 设置中添加
-- 版本一致性：创建 `.node-version` 文件锁定 Node 版本
+**性能优化**：
+- 背景图压缩到 400KB 以下（原图 2.1MB）
+- 开启图片懒加载和链接预加载
+- 用 `cleanup.js` 脚本自动删除未使用的生成文件（algolia.js、tw_cn.js）
+- Sitemap + 结构化数据提升 SEO
 
 ## 写在最后
 
-博客搭建完成，主要用来记录 Java 学习笔记。目前已实现：
-- ✅ 霞鹜文楷字体
-- ✅ 彩色标签（6色循环）
-- ✅ 本地背景图（亮/暗色不同透明度）
-- ✅ 自动部署（push 即发布）
+博客搭建完成，已经成功部署到 [blog-54k.pages.dev](https://blog-54k.pages.dev)，主要用来记录 Java 学习笔记。目前已实现：
 
-如果你也想搭建博客，记住两个关键点：项目放 Linux 文件系统，主题依赖别忘装。
+- 霞鹜文楷 + Fira Code 字体
+- 粉色主题色 + 彩色标签（6色循环）
+- 全站背景图 + 渐变背景（亮/暗色适配）
+- 图片懒加载 + 链接预加载
+- 本地搜索 + 字数统计
+- Sitemap + 结构化数据
+- Git push 自动部署
+
+如果你也想搭建博客，记住几个关键点：
+1. WSL2 项目放 Linux 文件系统，别放 `/mnt/` 下
+2. `_config.butterfly.yml` 只写改过的配置，别复制整个默认文件
+3. CF Pages 构建用 `cp -r` 复制主题，别用软链接
 
 ---
 

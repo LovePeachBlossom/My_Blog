@@ -170,6 +170,7 @@ hexo.extend.filter.register('after_post_render', function(data) {
 - **内容方向**：Java 基础课程学习记录
 - **写作风格**：轻松口语化，小白友好，少代码多叙述
 - **部署方式**：Cloudflare Pages（免费 CDN + HTTPS）
+- **线上地址**：https://blog-54k.pages.dev
 - **GitHub 仓库**：https://github.com/LovePeachBlossom/My_Blog
 - **用户信息**：
   - GitHub: https://github.com/LovePeachBlossom
@@ -202,38 +203,41 @@ npx hexo clean && npx hexo generate && npx hexo server -i 0.0.0.0
 npx hexo deploy
 ```
 
-### 当前配置状态（2026-02-18）
+### 当前配置状态（2026-02-19）
 
-**主题接入方式**：软链接 `blog-test/themes/butterfly -> /home/wf0904/projects/My_Blog/hexo-theme-butterfly`
+**部署方式**：Cloudflare Pages（Git 推送自动构建）
+**线上地址**：https://blog-54k.pages.dev
+**GitHub 仓库**：https://github.com/LovePeachBlossom/My_Blog
+**主题接入方式**：
+- 本地开发：软链接 `blog-test/themes/butterfly -> ../../hexo-theme-butterfly`
+- CF 构建：`cp -r hexo-theme-butterfly blog-test/themes/butterfly`
+
+**CF Pages 构建配置**：
+- 构建命令：`cp -r hexo-theme-butterfly blog-test/themes/butterfly && cd blog-test && npm install && npx hexo clean && npx hexo generate`
+- 输出目录：`blog-test/public`
+- 环境变量：`NODE_VERSION` = `22`
 
 **已实现功能**：
 - ✅ 霞鹜文楷字体（LXGW WenKai）+ Fira Code 代码字体
 - ✅ 五颜六色标签（6色循环，支持暗色模式）
-- ✅ 全站背景图（本地 `/img/bg.jpg`，所有页面统一，亮色 0.3 / 暗色 0.5 透明度）
-- ✅ 协调渐变背景（粉紫蓝色调，与背景图匹配）
-- ✅ 页脚渐变背景（柔和过渡，支持暗色模式）
+- ✅ 全站背景图（压缩至 392KB，亮色 0.3 / 暗色 0.5 透明度）
+- ✅ 协调渐变背景（粉紫蓝色调）+ 页脚渐变背景
 - ✅ 固定导航栏 + 自定义中文菜单
-- ✅ 本地搜索（hexo-generator-searchdb）
-- ✅ 字数统计（hexo-wordcount）
+- ✅ 本地搜索 + 字数统计
 - ✅ 深色模式 + 阅读模式
-- ✅ 文章增强（TOC、相关文章、版权声明、分页）
-- ✅ 文章封面图功能
-- ✅ 粉色主题色 + 圆角 UI
-- ✅ 侧边栏首页显示
+- ✅ 文章增强（TOC、相关文章、版权声明、分页、封面图）
+- ✅ 粉色主题色 + 圆角 UI + 侧边栏首页显示
 - ✅ 社交链接（哔哩哔哩 + 邮箱）
-- ✅ Favicon（使用主题自带图标）
-- ✅ 关闭公告抖动特效
-- ✅ 放慢头像旋转速度（3秒/圈）
-- ✅ 性能优化（删除无用依赖、关闭分享功能、自动清理脚本）
+- ✅ Sitemap + 结构化数据（SEO）
+- ✅ 图片懒加载 + 链接预加载（instantpage）
+- ✅ 自动清理脚本（hexo.route.remove 移除无用文件）
+- ✅ Cloudflare Pages 部署（自动构建 + CDN + HTTPS）
+- ✅ `_config.butterfly.yml` 精简至 ~135 行（仅保留差异配置）
 
-**未配置项**：
-- ⚠️ 站点 URL（`_config.yml:16` 仍为 `http://example.com`）
-- ⚠️ 部署配置（`_config.yml:103` deploy.type 为空）
-- ⚠️ GitHub 链接（`_config.butterfly.yml:300` 仍为占位符）
-- ⚠️ 社交链接占位符（B站UID、邮箱地址需替换）
-- ⚠️ 评论系统、统计分析（GA/百度）、PWA、PJAX 等均未启用
+**未启用（按需开启）**：
+- 评论系统（Disqus/Valine/Twikoo 等）
+- 统计分析（GA/百度统计）
+- PWA、PJAX
 
 **待完成**：
-- [ ] 部署到 Cloudflare Pages
-- [ ] 替换 GitHub 链接和社交链接为真实地址
-- [ ] 继续创作内容
+- [ ] 继续创作 Java 学习笔记内容

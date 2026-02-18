@@ -16,8 +16,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-# TODO: 部署到 Cloudflare Pages 后替换为实际域名
-url: https://example.pages.dev
+url: https://blog-54k.pages.dev
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
