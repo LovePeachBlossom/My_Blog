@@ -1,5 +1,5 @@
 ---
-title: 搭个博客记录学习 | Hexo + Butterfly 部署到 Cloudflare
+title: 自主搭建博客 | Hexo + Butterfly 部署到 Cloudflare
 date: 2026-02-18 19:31:55
 updated: 2026-02-19 03:30:00
 tags: [博客搭建, Hexo, Butterfly, Cloudflare]
@@ -11,15 +11,15 @@ cover: /img/bg.jpg
 
 最近在学 Java 基础课程，Notion 里记了不少笔记，但总觉得缺点什么。想来想去，还是想有个自己的小窝，把学习过程记录下来，顺便练练手。
 
-选了 Hexo + Butterfly 的组合，主要是看中 Butterfly 的颜值，卡片式设计很适合打造二次元风格的博客。而且 Hexo 写 Markdown 就能生成网页，对新手很友好。最关键的是，部署到 Cloudflare Pages 完全免费，还自带 CDN 加速和 HTTPS，简直完美。
+最后选择了了 Hexo + Butterfly 的组合，主要是看中 Butterfly 的颜值，卡片式设计很适合打造二次元风格的博客。而且 Hexo 写 Markdown 就能生成网页，对新手很友好。部署到 Cloudflare Pages 完全免费，还自带 CDN 加速和 HTTPS，简直完美。
 
 <!-- more -->
 
-## 本地搭建
+## 本地搭建调试
 
 我用的是 Windows + WSL2 环境，如果你也是这个配置可以直接参考。先确认一下有没有装 Node.js，终端里跑一下 `node --version` 看看。没有的话用 nvm 装一个就行。
 
-**重要提示**：项目必须放在 Linux 文件系统里（比如 `~/projects/`），别放 Windows 盘符下（`/mnt/d/`）。我一开始放错了位置，VSCode 一直提示性能警告，后来搬到 `~/projects/` 速度快了好多。
+**重要提示**：项目必须放在 Linux 文件系统里（比如 `~/projects/`），别放 Windows 盘符下（`/mnt/d/`）。我一开始放错了位置，终端一直提示性能警告，后来搬到 `~/projects/` 速度快了好多。
 
 ```bash
 mkdir -p ~/projects && cd ~/projects
@@ -33,19 +33,20 @@ git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes
 npm install hexo-renderer-pug hexo-renderer-stylus --save
 ```
 
-编辑博客根目录的 `_config.yml`，把 `theme` 改成 `butterfly`，然后本地预览：
+根据文档编辑博客根目录的 `_config.yml`，把 `theme` 改成 `butterfly`，然后本地预览：
 
 ```bash
 npx hexo clean && npx hexo generate && npx hexo server
 ```
 
+通常默认端口是 4000
 浏览器打开 `http://localhost:4000`，看到 Butterfly 主题就成功了。
 
-> WSL2 用户注意：如果 `localhost:4000` 打不开，用 `hostname -I` 查看 WSL2 的 IP 地址，然后用 `http://IP:4000` 访问。启动时加 `-i 0.0.0.0` 参数监听所有网卡。
+> 但是使用 WSL2 时要注意：如果 `localhost:4000` 打不开，用 `hostname -I` 查看 WSL2 的 IP 地址，然后用 `http://IP:4000` 访问。启动时加 `-i 0.0.0.0` 参数监听所有网卡。
 
 ## 推送到 GitHub
 
-Cloudflare Pages 需要从 Git 仓库拉代码。我的仓库结构是把博客和主题放在同一个仓库里：
+Cloudflare Pages 需要从 Git 仓库拉代码。就我来说，我是新建了一个My_Blog的新仓库，然后把博客和主题远程上传到这个仓库：
 
 ```
 My_Blog/
@@ -63,7 +64,7 @@ git remote add origin git@github.com:你的用户名/My_Blog.git
 git push -u origin main
 ```
 
-**注意**：本地开发用软链接引用主题（`themes/butterfly -> ../../hexo-theme-butterfly`），但软链接不要提交到 Git，CF 构建时用 `cp -r` 复制主题目录。
+**注意**：本地开发时我使用的是软链接引用主题（`themes/butterfly -> ../../hexo-theme-butterfly`），但软链接不要提交到 Git，CF 构建时用 `cp -r` 复制主题目录。
 
 ## 部署到 Cloudflare Pages
 
@@ -73,7 +74,7 @@ git push -u origin main
 - 框架预设：`None`
 - 构建命令：`cp -r hexo-theme-butterfly blog/themes/butterfly && cd blog && npm install && npx hexo clean && npx hexo generate`
 - 构建输出目录：`blog/public`
-- 环境变量：`NODE_VERSION` = `22`
+- 环境变量：`NODE_VERSION` = `22`// 选择 Node.js 版本，建议用最新的稳定版本
 
 构建命令的关键是 `cp -r` 那一步——把主题复制到博客的 `themes/` 目录下，因为 Git 里没有软链接。
 
@@ -81,11 +82,11 @@ git push -u origin main
 - 软链接在 CF 构建环境会产生循环引用（`ELOOP` 错误），必须用 `cp -r` 代替
 - 主题依赖的 `moment-timezone` 需要在博客的 `package.json` 里显式声明，否则构建报 `Cannot find module`
 
-构建成功后会得到 `.pages.dev` 域名，我的是 [blog.wf0904.cn](https://blog.wf0904.cn)。以后每次 `git push` 都会自动部署。
+构建成功后会得到 `XXX.pages.dev` 域名，(XXX表示部署是的命名)。我使用的是我的是自定义的域名 [blog.wf0904.cn](https://blog.wf0904.cn)。以后每次 `git push` 都会自动部署。
 
 ## 主题定制
 
-Butterfly 的配置推荐在博客根目录创建 `_config.butterfly.yml`，只写你改过的配置项，不要复制整个默认配置。我的配置文件只有 135 行，但实现了完整的二次元风格。
+Butterfly 的配置推荐在博客根目录创建 `_config.butterfly.yml`，只写你改过的配置项，不要复制整个默认配置。如果想要二次元风格的，可以尝试一下的配置:
 
 **字体**：使用霞鹜文楷（LXGW WenKai），手写风格更有动漫感：
 ```yaml
@@ -116,7 +117,7 @@ theme_color:
 
 ## 写在最后
 
-博客搭建完成，已经成功部署到 [blog.wf0904.cn](https://blog.wf0904.cn)，主要用来记录 Java 学习笔记。目前已实现：
+博客搭建完成，已经成功部署到 [blog.wf0904.cn](https://blog.wf0904.cn)，目前已实现：
 
 - 霞鹜文楷 + Fira Code 字体
 - 粉色主题色 + 彩色标签（6色循环）
