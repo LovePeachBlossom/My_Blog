@@ -9,15 +9,17 @@ cover: /img/bg.jpg
 
 ## 为什么要搭博客
 
-最近在学 Java 基础课程，Notion 里记了不少笔记，但总觉得缺点什么。想来想去，还是想有个自己的小窝，把学习过程记录下来，顺便练练手。
+最近在进一步强化对AI的了解和使用，Notion 里记了不少笔记，但总觉得缺点什么。想来想去，还是想有个自己的小窝，把学习过程记录下来，顺便练练手。
 
-最后选择了了 Hexo + Butterfly 的组合，主要是看中 Butterfly 的颜值，卡片式设计很适合打造二次元风格的博客。而且 Hexo 写 Markdown 就能生成网页，对新手很友好。部署到 Cloudflare Pages 完全免费，还自带 CDN 加速和 HTTPS，简直完美。
+要搭建一个博客，首先当然是要先选择一个合适的框架，我通过询问Claude和查阅资料，最终锁定了 Hexo 和 Hugo 两个选项。了解到 Hugo 是 Go 语言编写的，其性能和便携性优势很大，而 Hexo 是个老牌的静态博客生成器，国内社区活跃，插件丰富，有很多精美的主题，并且对新手很友好，考虑到个人搭建，就决定搭建一个主题精美的框架，选择了 Hexo 。
+
+最后在不断的挑选下，选择了 Butterfly 的主题，主要是看中 Butterfly 的颜值，卡片式设计很适合打造二次元风格的博客。部署到 Cloudflare Pages 也完全免费，还自带 CDN 加速和 HTTPS，简直完美。
 
 <!-- more -->
 
 ## 本地搭建调试
 
-我用的是 Windows + WSL2 环境，如果你也是这个配置可以直接参考。先确认一下有没有装 Node.js，终端里跑一下 `node --version` 看看。没有的话用 nvm 装一个就行。
+我使用的是 Windows + WSL2 环境。首先要确认一下有没有装 Node.js，终端里跑一下 `node --version` 看看。没有的话用 nvm 装一个就行。
 
 **重要提示**：项目必须放在 Linux 文件系统里（比如 `~/projects/`），别放 Windows 盘符下（`/mnt/d/`）。我一开始放错了位置，终端一直提示性能警告，后来搬到 `~/projects/` 速度快了好多。
 
@@ -26,7 +28,7 @@ mkdir -p ~/projects && cd ~/projects
 npx hexo init my-blog && cd my-blog
 ```
 
-等它跑完就有一个基础的 Hexo 博客了。接下来装 Butterfly 主题：
+等它跑完就有一个基础的 Hexo 博客框架了。接下来装 Butterfly 主题：
 
 ```bash
 git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly
@@ -120,8 +122,8 @@ theme_color:
 博客搭建完成，已经成功部署到 [blog.wf0904.cn](https://blog.wf0904.cn)，目前已实现：
 
 - 霞鹜文楷 + Fira Code 字体
-- 粉色主题色 + 彩色标签（6色循环）
-- 全站背景图 + 渐变背景（亮/暗色适配）
+- 粉色主题色 + 彩色标签
+- 全站背景图 + 渐变背景
 - 图片懒加载 + 链接预加载
 - 本地搜索 + 字数统计
 - Sitemap + 结构化数据
