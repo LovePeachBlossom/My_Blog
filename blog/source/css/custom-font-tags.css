@@ -40,7 +40,7 @@
 
 /* 放慢头像和图标旋转速度 */
 .avatar-img img:hover {
-  animation: avatar-turn-around 3s linear infinite !important;
+  animation: avatar-turn-around 2s linear infinite !important;
 }
 
 @keyframes avatar-turn-around {
